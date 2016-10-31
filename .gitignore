@@ -4,4 +4,5 @@
 *.d
 *.swp
 ~*.*
+obj/
 .settings
