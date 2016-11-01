@@ -2,9 +2,11 @@
 #define MAT_H
 
 #include <stdlib.h>
+#include <stdint.h>
+#include <stdio.h>
 
 /* Matrix elements defined as min int containing word identifiers */
-typedef MatElt uint16_t;
+typedef uint16_t MatElt;
 
 typedef struct {
     uint32_t size;
@@ -17,13 +19,13 @@ static inline Mat mat_alloc(int size)
     Mat ret;
     ret.size = 0;
     // Allocate an array to keep pointer to rows in
-    uint32_t ** row_ptr_array = malloc(size * sizeof(uint32_t *));
+    MatElt ** row_ptr_array = (MatElt **) malloc(size * sizeof(MatElt *));
     if (row_ptr_array == NULL) {
         return ret;
     }
     // Allocate the rows
     for(uint32_t row = 0; row < size; row++) {
-        row_ptr_array[row] = malloc(size * size * sizeof(MatElt));
+        row_ptr_array[row] = (MatElt *) malloc(size * sizeof(MatElt));
         if(row_ptr_array[row] == NULL)
         {
             // We couldmn't allocate a row, free previous mallocs and return
@@ -35,12 +37,13 @@ static inline Mat mat_alloc(int size)
         }
     }
     // We could alloc everything, so fill in the size, and return complete!
+    ret.contents = row_ptr_array;
     ret.size=size;
     return ret;
 }
 
 
-static inline Mat mat_free(Mat mat) {
+static inline void mat_free(Mat mat) {
     for(uint32_t row = 0; row < mat.size; row++) {
         free(mat.contents[row]);
     }

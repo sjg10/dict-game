@@ -3,6 +3,8 @@
 *.o
 *.d
 *.swp
+*.exe
+*.stackdump
 ~*.*
 obj/
 .settings

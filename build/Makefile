@@ -1,6 +1,6 @@
 # Constant variables
 CC=gcc
-CFLAGS=-c -Wall
+CFLAGS=-c -Wall -g
 LDFLAGS=
 EXECUTABLE=dict-game
 ROOT=..
@@ -12,7 +12,8 @@ INCLUDE=-I$(ROOT)/include
 IF_NOT_EXIST_MKDIR = $(if $(wildcard $1),,$(shell mkdir -p $1))
 
 # All c sources
-SOURCES=main.c
+SOURCES  = main.c
+SOURCES += gen/gen_main.c
 
 # Auto objects
 OBJECTS=$(SOURCES:.c=.o)
