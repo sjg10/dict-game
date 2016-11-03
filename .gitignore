@@ -1,4 +1,5 @@
 .cproject
+build/dict-game
 .project
 *.o
 *.d

@@ -1,6 +1,6 @@
 # Constant variables
 CC=gcc
-CFLAGS=-c -Wall -g
+CFLAGS=-c -Wall -g -std=c11
 LDFLAGS=
 EXECUTABLE=dict-game
 ROOT=..
