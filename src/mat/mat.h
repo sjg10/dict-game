@@ -1,9 +1,7 @@
 #ifndef MAT_H
 #define MAT_H
 
-#include <stdlib.h>
 #include <stdint.h>
-#include <stdio.h>
 
 /* Matrix elements defined as min int containing word identifiers */
 typedef uint16_t MatElt;
@@ -14,40 +12,13 @@ typedef struct {
 } Mat;
 
 // returns matrix with size 0 if cannot alloc memory
-static inline Mat mat_alloc(int size)
-{
-    Mat ret;
-    ret.size = 0;
-    // Allocate an array to keep pointer to rows in
-    MatElt ** row_ptr_array = (MatElt **) malloc(size * sizeof(MatElt *));
-    if (row_ptr_array == NULL) {
-        return ret;
-    }
-    // Allocate the rows
-    for(uint32_t row = 0; row < size; row++) {
-        row_ptr_array[row] = (MatElt *) malloc(size * sizeof(MatElt));
-        if(row_ptr_array[row] == NULL)
-        {
-            // We couldmn't allocate a row, free previous mallocs and return
-            for(uint32_t row_dealloc = 0; row_dealloc < row - 1; row_dealloc++) {
-                free(row_ptr_array[row]);
-            }
-            free(row_ptr_array);
-            return ret;
-        }
-    }
-    // We could alloc everything, so fill in the size, and return complete!
-    ret.contents = row_ptr_array;
-    ret.size=size;
-    return ret;
-}
+Mat mat_alloc(int size);
 
+void mat_free(Mat mat);
 
-static inline void mat_free(Mat mat) {
-    for(uint32_t row = 0; row < mat.size; row++) {
-        free(mat.contents[row]);
-    }
-    free(mat.contents);
-}
+// multiplies matrix R on the right into L
+// returns 0 if succesful, 1 if memory error
+uint32_t mat_mul(Mat l, Mat r);
 
-#endif //MAT_Hret
+#endif //MAT_H
+

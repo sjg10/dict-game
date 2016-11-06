@@ -14,6 +14,8 @@ IF_NOT_EXIST_MKDIR = $(if $(wildcard $1),,$(shell mkdir -p $1))
 # All c sources
 SOURCES  = main.c
 SOURCES += gen/gen_main.c
+SOURCES += mat/mat_alloc.c
+SOURCES += mat/mat_op.c
 
 # Auto objects
 OBJECTS=$(SOURCES:.c=.o)
